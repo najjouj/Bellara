@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "628384876063",
+    "firebase_url": "https://bellaradb-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "bellaradb",
+    "storage_bucket": "bellaradb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628384876063:android:3890c4e6d154b8f5c4f72a",
+        "android_client_info": {
+          "package_name": "com.example.bellaraa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628384876063-m4jhurst69i43ghodkhm65nhneimha1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOJdZwYm6HFYi4JDsFn7M-kzbTFzjeYcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628384876063-m4jhurst69i43ghodkhm65nhneimha1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

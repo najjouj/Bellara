@@ -1,0 +1,265 @@
+import 'package:bellaraa/commun/commun/list.dart';
+import 'package:bellaraa/commun/widgets/list_view_search_screen.dart';
+
+import 'package:flutter/material.dart';
+
+//import 'package:edu1/mobile_layout/test%20mode/administrator/ministere%20education/creation%20lycee/lycee_list_screen.dart';
+//import 'package:edu1/mobile_layout/test%20mode/administrator/ministere%20education/ecole_primaire/coll%C3%A8ges/college_list_screen.dart';
+
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+
+import 'etablissements_scolaire_screen.dart';
+import 'formations/me_formation_afficher_niveaux_screen.dart';
+
+class MEWelcomePage extends StatefulWidget {
+  const MEWelcomePage({super.key});
+
+  @override
+  State<MEWelcomePage> createState() => _MEWelcomePageState();
+}
+
+class _MEWelcomePageState extends State<MEWelcomePage> {
+  List<String> listOfValue = ['Etablissements', 'Niveaux'];
+
+  String activeSelection = 'Etablissements';
+  String delegation = '';
+  String cycle = '';
+
+  //TabController? _tabController;
+  bool recherche = false;
+  delegvcallback(varSelectedNatEtab) {
+    setState(() {
+      delegation = varSelectedNatEtab;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // _tabController = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 900,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                Get.to(() => ListViewSearchScreen(
+                    items: delegationsRegionales,
+                    stringCallback: delegvcallback));
+              });
+            },
+            child: Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.deepPurple.shade100,
+                  ),
+                  /*   boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 10),
+                                    color: Colors.grey.withOpacity(.2))
+                              ],*/
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    // width: double.infinity,
+                    child: (delegation != '')
+                        ? Text(
+                            delegation,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black87),
+                          )
+                        : const Text(
+                            'Délégation régionale',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                  ),
+                  Icon(
+                    Icons.search,
+                    color: Colors.deepPurple,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Gap(10),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 5, right: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Ministère d'éducation",
+                  style: const TextStyle(
+                      letterSpacing: 1.5,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54),
+                ),
+                // Gap(8),
+                Container(
+                  width: 150,
+                  // height: 50,
+                  child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        border: InputBorder.none,
+                      ),
+                      icon: Icon(
+                        Icons.arrow_drop_down_circle_rounded,
+                        size: 20,
+                        color: Colors.deepPurple,
+                      ),
+                      value: activeSelection,
+                      items: listOfValue.map((String val) {
+                        return DropdownMenuItem(
+                          value: val,
+                          child: Text(val,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  letterSpacing: 1.3,
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.grey[800])),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        setState(() {
+                          activeSelection = val as String;
+                        });
+                      }),
+                )
+              ],
+            ),
+          ),
+          const Gap(20),
+          (activeSelection == 'Etablissements')
+              ? EtablissementsScolaireScreen(
+                  delegation: delegation,
+                )
+              : MEFormationAfficherNiveauxScreen()
+        ],
+      ),
+    );
+  }
+
+  void _bottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              )),
+              // padding: EdgeInsets.only(left: 25, top: 10, right: 25, bottom: 35),
+              height: 400,
+              child: Wrap(children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    height: 5,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+                ListTile(
+                  //  onTap: () => Get.to(() => const CreationNivScolaire()),
+                  leading: Container(
+                    //padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.grey[400]),
+                    child: const Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  title: const Text(
+                    'Un niveau scolaire',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  subtitle: const Divider(
+                    color: Colors.deepPurple,
+                  ),
+                ),
+                ListTile(
+                  leading: Container(
+                    // padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.grey[400]),
+                    child: const Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  title: const Text('Une école primaire',
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: const Divider(
+                    color: Colors.deepPurple,
+                  ),
+                  //onTap: () => Get.to(() => (const CreationEcole())),
+                ),
+                ListTile(
+                  // onTap: () => Get.to(() => (const CreationCollegeScreen())),
+                  leading: Container(
+                    // padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.grey[400]),
+                    child: const Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  title:
+                      const Text('Un collège', style: TextStyle(fontSize: 20)),
+                  subtitle: const Divider(
+                    color: Colors.deepPurple,
+                  ),
+                ),
+                ListTile(
+                  //onTap: () => Get.to(() => (const CreationLyceeScrenn())),
+                  leading: Container(
+                    //padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.grey[400]),
+                    child: const Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  title: const Text('Un lycée secondaire',
+                      style: TextStyle(fontSize: 20)),
+                  subtitle: const Divider(
+                    color: Colors.deepPurple,
+                  ),
+                ),
+              ]));
+        });
+  }
+}
